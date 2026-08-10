@@ -1,0 +1,62 @@
+# Configuration centrale du projet
+# Toute constante métier vit ici, jamais en dur dans le code
+
+universe:
+  equities:
+    - {ticker: SPY, label: "US Large Cap"}
+    - {ticker: EWC, label: "Canada"}
+    - {ticker: EFA, label: "EAFE"}
+    - {ticker: EEM, label: "Emerging Markets"}
+  rates:
+    - {ticker: IEF, label: "US 7-10Y"}
+    - {ticker: TLT, label: "US 20Y+"}
+    - {ticker: BND, label: "US Aggregate Bond"}
+  fx:
+    - {ticker: "EURUSD=X", label: "EUR/USD"}
+    - {ticker: "USDCAD=X", label: "USD/CAD"}
+    - {ticker: "USDJPY=X", label: "USD/JPY"}
+    - {ticker: "GBPUSD=X", label: "GBP/USD"}
+  commodities:
+    - {ticker: DBC, label: "Broad Commodities"}
+    - {ticker: GLD, label: "Gold"}
+    - {ticker: USO, label: "Crude Oil"}
+  credit:
+    - {ticker: LQD, label: "Investment Grade"}
+    - {ticker: HYG, label: "High Yield"}
+
+factors:
+  momentum:
+    lookback_months: 12
+    skip_months: 1        # évite le reversal court terme (12-1)
+  value:
+    lookback_years: 5     # fenêtre pour le z-score de cherté relative
+  carry:
+    method: "yield_differential"   # dépend de la classe d'actif
+  low_vol:
+    lookback_days: 63     # ~3 mois de vol réalisée
+
+portfolio:
+  weighting_method: "risk_parity"   # ERC = Equal Risk Contribution
+  rebalance_frequency: "monthly"
+  risk_parity_lookback_days: 63     # fenêtre de vol/covariance pour risk_parity.py
+  tilt_strength: 0.5                # 0 = risk parity pur, 1 = conviction pure (non recommandé)
+  target_volatility: 0.10           # 10% annualisé -- valeur de départ standard pour du
+                                     # risk parity multi-actif, ajustable selon l'appétit au risque
+  max_leverage: 2.75
+  max_weight_per_asset: 0.25
+  max_weight_per_asset_class: 0.40
+
+backtest:
+  start_date: "2010-01-01"
+  end_date: null              # null = jusqu'à aujourd'hui
+  train_window_years: 5       # fenêtre walk-forward
+  test_window_months: 12
+  transaction_cost_bps: 5     # coût aller-retour approximatif sur ETF liquides
+  financing_rate_source: "fred"  # taux sans risque pour le coût du levier
+
+data:
+  fred_series:
+    us_10y_yield: "DGS10"
+    us_2y_yield: "DGS2"
+    hy_spread: "BAMLH0A0HYM2"
+    ig_spread: "BAMLC0A0CM"

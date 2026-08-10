@@ -1,0 +1,23 @@
+# Environnement
+.venv/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+
+# Session Claude Code (config locale, pas partagée)
+.claude/
+
+# Cache de données téléchargées (yfinance / FRED) -- régénéré par main.py
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Graphiques générés par main.py
+output/*.png
+
+# Secrets
+.env
+*.env
